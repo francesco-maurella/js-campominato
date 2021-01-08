@@ -19,13 +19,14 @@ function isValid(num, nums, max) {
 
 //dichiarazione array contenitore 16 numeri
 var bombsNum = [];
-var userNums = [101];
+var userNums = [];
 
 
 // ciclo FOR generatore di 16 numeri
 for (var i = 0; i < 16; i++) {
   bombsNum.push(getRandomNum(100))
 }
+console.log(bombsNum)
 
 /* verificare se un numero scelto dall'utente rientra nell'array
 attraverso un ciclo DO WHILE */
@@ -33,15 +34,11 @@ var count = 0;
 var userNum;
 do {
   userNum = parseInt(prompt('Inserisci un numero'));
-  alert(count)
-  if (!isValid(userNum, userNums, 100)) {
-    count;
-  } else {
-    userNums.push(userNum)
-    count++;
+  if (isValid(userNum, userNums, 100)) {
+    userNums.push(userNum); // inserisce il numero nel suo array
   }
 } while (!bombsNum.includes(userNum));
 
 // esito
 alert('Il numero ' + userNum + ' è una bomba! Partita terminata.');
-alert('Punteggio: ' + count);
+alert('Punteggio: ' + parseInt(userNums.length) + 1);
