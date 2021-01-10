@@ -27,9 +27,9 @@ function isValid(num, nums, max) {
   }
 }
 
-// funzione vincitore
+// funzione equivalenza quantità numeri & capacità contenitore
 function isEqual(nums, max) {
-  return nums.lenght === max;
+  return nums.length === max;
 }
 
 var numsLimit = 100; // var limite massimo del valore numerico
@@ -40,6 +40,7 @@ var bombsQuantity = 16; // quantità dei numeri bomba
 for (var i = 0; i < bombsQuantity; i++) {
   bombsNum.push(getRandomNum(numsLimit));
 }
+console.log(bombsNum);
 
 var usrNum; // dichiariamo var numero utente
 var usrNums = []; // dichiarazione array contenitore numeri utente
@@ -47,14 +48,18 @@ var usrNmsCapacity = numsLimit - bombsQuantity; // quantità max contenitore num
 
 // parte un ciclo DO WHILE
 do {
-  // riempiamo la var numero utente
+  // riempiamo la var numero utente, con una scelta
   usrNum = getUserNum();
   // verifichiamo requisiti descritti nella funzione
   if (isValid(usrNum, usrNums, numsLimit)) {
-    usrNums.push(usrNum); // inseriamo il numero nelL'apposito array
+    usrNums.push(usrNum); // inseriamo la scelta nelL'apposito array
   }
-  // ciclo si interrompe se numero è presente nell'array "numeri bomba", o si raggiunge quantità max dell'array usrNums
-} while (!bombsNum.includes(usrNum) || isEqual(usrNums, usrNmsCapacity));
+  // ciclo continua finchè la scelta è assente in "numeri bomba", o si raggiunge capacità max del contenitore usrNums
+} while (!bombsNum.includes(usrNum));
+
+/* --- Così non funziona, non capisco perchè:
+while (!bombsNum.includes(usrNum) || !isEqual(usrNums, usrNmsCapacity));
+ --- */
 
 // esiti in base al risultato
 if (isEqual(usrNums, usrNmsCapacity)) { // in caso di vittoria
