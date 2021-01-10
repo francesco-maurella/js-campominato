@@ -10,53 +10,58 @@ function getUserNum() {
     var num = parseInt(prompt('Inserisci un numero'));
     if (isNaN(num)) {
       alert('Ammessi soltanto caratteri numerici');
-    } else {
-      return num;
+      }
     }
-  } while (!isNaN(num));
+    while (isNaN(num));
+    return num;
 }
 
 // funzione verifica requisiti di inserimento
 function isValid(num, nums, max) {
   if (num > max) {
-    alert('Il numero deve essere compreso tra 1 a 100');
+    alert('Il numero deve essere compreso tra 1 a ' + max);
   } else if (nums.includes(num)) {
-    alert('Non puoi inserire lo stesso numero 2 volte');
+    alert('Numero già inserito precedentemente!');
   } else {
-    return true
+    return true;
   }
 }
 
-switch (expression) {
-  case expression:
-
-    break;
-  default:
-
+// funzione vincitore
+function isEqual(nums, max) {
+  return nums.lenght === max;
 }
 
-var numLimit = 100; // var limite massimo del valore numerico
+var numsLimit = 100; // var limite massimo del valore numerico
 var bombsNum = []; // dichiarazione array contenitore 16 numeri "bomba"
+var bombsQuantity = 16; // quantità dei numeri bomba
 
 // ciclo FOR generatore di 16 numeri
-for (var i = 0; i < 16; i++) {
-  bombsNum.push(getRandomNum(numLimit));
+for (var i = 0; i < bombsQuantity; i++) {
+  bombsNum.push(getRandomNum(numsLimit));
 }
 
-var userNum; // dichiariamo var numero utente
-var userNums = []; // dichiarazione array contenitore numeri utente
+var usrNum; // dichiariamo var numero utente
+var usrNums = []; // dichiarazione array contenitore numeri utente
+var usrNmsCapacity = numsLimit - bombsQuantity; // quantità max contenitore numeri utente
 
 // parte un ciclo DO WHILE
 do {
   // riempiamo la var numero utente
-  userNum = getUserNum();
+  usrNum = getUserNum();
   // verifichiamo requisiti descritti nella funzione
-  if (isValid(userNum, userNums, numLimit)) {
-    userNums.push(userNum); // inseriamo il numero nelL'apposito array
+  if (isValid(usrNum, usrNums, numsLimit)) {
+    usrNums.push(usrNum); // inseriamo il numero nelL'apposito array
   }
-  // ciclo si interrompe se numero è presente nell'array "numeri bomba"
-} while (!bombsNum.includes(userNum));
+  // ciclo si interrompe se numero è presente nell'array "numeri bomba", o si raggiunge quantità max dell'array usrNums
+} while (!bombsNum.includes(usrNum) || isEqual(usrNums, usrNmsCapacity));
 
-// esito
-alert('Il numero ' + userNum + ' è una bomba! Partita terminata.');
-alert('Punteggio: ' + (userNums.length - 1));
+// esiti in base al risultato
+if (isEqual(usrNums, usrNmsCapacity)) { // in caso di vittoria
+  alert('Complimenti, hai evitato tutti i numeri bomba!');
+} else { // in caso di sconfitta
+  alert('Il numero ' + usrNum + ' è una bomba! Partita terminata.');
+  usrNums.length = usrNums.length - 1; // sottraiamo 1, alla quantità di numeri presenti nell'array userNums
+}
+
+alert('Punteggio: ' + usrNums.length); // punteggio
