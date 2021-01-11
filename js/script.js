@@ -36,8 +36,9 @@ function isEqual(nums, max) {
 }
 
 // regole di gioco
-alert('CAMPO MINATO\nPer giocare imposta un livello di difficoltà');
-alert('Scrivi "1" per Facile.\nScrivi "2" per Medio.\nScrivi "3" per Difficile.');
+alert('CAMPO MINATO\n\nInserisci i numeri, evitando di scrivere quelli "bomba"');
+alert('Per giocare imposta un livello di difficoltà');
+alert('Scrivi:\n\n "1" per Facile.\n "2" per Medio.\n "3" per Difficile.');
 
 // ciclo DO WHILE per selezionare livello difficoltà
 do {
@@ -62,7 +63,8 @@ switch (level) {
     break;
 }
 
-alert('Livello difficoltà selezionato: ' + level);
+// esito scelta livello
+alert('Livello difficoltà: ' + level + '\n' + numsLimit + ' tentativi disponibili');
 alert('Iniziamo');
 
 var bombsNum = []; // dichiarazione array contenitore 16 numeri "bomba"
