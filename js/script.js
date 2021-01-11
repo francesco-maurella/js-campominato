@@ -104,10 +104,6 @@ do {
   // ciclo continua finchè vittoria o perdita, non sono veri
 } while (!win && !loose);
 
-/* --- Con l'operatore OR non funziona, non capisco perchè:
-while (!win || !loose);
- --- */
-
 // esiti in base al risultato
 if (win) { // in caso di vittoria
   alert('Complimenti, hai evitato tutti i numeri bomba!');
