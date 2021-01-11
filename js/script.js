@@ -43,7 +43,7 @@ do {
   if (isExtra(level, levels)) {
     alert('Il numero deve essere compreso tra 1 e ' + levels);
   }
-} while (isExtra(level, levels));
+} while (!level || isExtra(level, levels));
 
 var numsLimit; // dichiarazione var quantità numeri
 
@@ -87,13 +87,11 @@ var loose; // dichiariamo var sconfitta
 do {
   // scriviamo un numero valido
   usrNum = getNum();
-  if (isDuplicate(usrNum, usrNums)) {
-    // verifichiamo se non è duplicato
+  if (isDuplicate(usrNum, usrNums)) { // verifichiamo se non è duplicato
     alert('Numero già inserito precedentemente!');
-  } else if (isExtra(usrNum, numsLimit)) {
-    // verifichiamo se rientra nel quantity-range
+  } else if (isExtra(usrNum, numsLimit)) {  // verifichiamo se rientra nella quantità
     alert('Il numero deve essere compreso tra 1 e ' + numsLimit);
-    } else if (usrNum && !isDuplicate(usrNum, bombs)) {
+  } else if (usrNum && !isDuplicate(usrNum, bombs)) {
     // inseriamo la scelta nelL'apposito array
     usrNums.push(usrNum);
   }
