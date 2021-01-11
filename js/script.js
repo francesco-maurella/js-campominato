@@ -5,13 +5,9 @@ function getRandomNum(max) {
 }
 
 // funzione inserimento di numero, verificandone la validità numerica
-function getNum() {
-  var choice = parseInt(prompt('Inserisci un numero'));
-  if (isNaN(choice)) {
-    alert('Ammessi soltanto caratteri numerici');
-  } else {
-    return choice;
-  }
+function getNum(max) {
+  var choice = parseInt(prompt('Inserisci un numero, da 1 a ' + max));
+  return choice;
 }
 
 // funzione verifica limite minimo e massimo di un numero
@@ -29,6 +25,12 @@ function isEqual(nums, max) {
   return nums.length === max;
 }
 
+// funzione equivalenza quantità numeri & capacità contenitore
+function isNotValid() {
+  alert('Valore inserito non valido.');
+  return false
+}
+
 // regole di gioco
 alert('CAMPO MINATO\n\nInserisci i numeri, evitando di scrivere quelli "bomba"');
 alert('Per giocare imposta un livello di difficoltà');
@@ -36,14 +38,17 @@ alert('Scrivi:\n\n "1" per Facile.\n "2" per Medio.\n "3" per Difficile.');
 
 var level; // dichiariamo var "livello"
 var levels = 3; // numero livelli
+var nextStep; // dichiariamo var "step successivo"
 
 // ciclo DO WHILE per selezionare livello difficoltà
 do {
-  level = getNum(); // scriviamo un numero livello valido
-  if (isExtra(level, levels)) {
-    alert('Il numero deve essere compreso tra 1 e ' + levels);
+  level = getNum(levels); // scriviamo un numero livello valido
+  if (isNaN(level) || isExtra(level, levels)) {
+    nextStep = isNotValid();
+  } else {
+    nextStep = true
   }
-} while (!level || isExtra(level, levels));
+} while (!nextStep); // il ciclo continua finchè nextStep risulta "false"
 
 var numsLimit; // dichiarazione var quantità numeri
 
@@ -86,20 +91,18 @@ var loose; // dichiariamo var sconfitta
 // ciclo DO WHILE per iniziare inserimento numeri utente
 do {
   // scriviamo un numero valido
-  usrNum = getNum();
-  if (isDuplicate(usrNum, usrNums)) { // verifichiamo se non è duplicato
-    alert('Numero già inserito precedentemente!');
-  } else if (isExtra(usrNum, numsLimit)) {  // verifichiamo se rientra nella quantità
-    alert('Il numero deve essere compreso tra 1 e ' + numsLimit);
-  } else if (usrNum && !isDuplicate(usrNum, bombs)) {
-    // inseriamo la scelta nelL'apposito array
-    usrNums.push(usrNum);
+  usrNum = getNum(numsLimit);
+  // verifichiamo i requisiti (numero intero, non duplicato, non fuori target)
+  if (isNaN(usrNum) || isDuplicate(usrNum, usrNums) || isExtra(usrNum, numsLimit)) {
+    usrNum = isNotValid();
+  } else if (!isDuplicate(usrNum, bombs)) { // se non è presente tra le "bombe"
+    usrNums.push(usrNum); // inseriamo la scelta nelL'apposito array
   }
   // vinciamo quando raggiungiamo capacità max del contenitore usrNums
   win = isEqual(usrNums, usrNmsCapacity);
   // perdiamo quando il numero utente è presente tra i numeri bomba
   loose = isDuplicate(usrNum, bombs);
-  // ciclo continua finchè non è vera la "vittoria" o la "sconfitta"
+  // ciclo continua finchè non raggiungiamo capacità massima, o numero non corrisponde a una bomba
 } while (!win && !loose);
 
 /* --- Con l'operatore OR non funziona, non capisco perchè:
