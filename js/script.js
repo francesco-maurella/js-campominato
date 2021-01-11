@@ -28,13 +28,13 @@ function isEqual(nums, max) {
 // funzione equivalenza quantità numeri & capacità contenitore
 function isNotValid() {
   alert('Valore inserito non valido.');
-  return false
+  return false;
 }
 
 // regole di gioco
-alert('CAMPO MINATO\n\nInserisci i numeri, evitando di scrivere quelli "bomba"');
+alert('CAMPO MINATO\nInserisci i numeri, evitando di scrivere quelli "bomba"');
 alert('Per giocare imposta un livello di difficoltà');
-alert('Scrivi:\n\n "1" per Facile.\n "2" per Medio.\n "3" per Difficile.');
+alert('Scrivi:\n "1" per Facile.\n "2" per Medio.\n "3" per Difficile.');
 
 var level; // dichiariamo var "livello"
 var levels = 3; // numero livelli
@@ -66,8 +66,7 @@ switch (level) {
 }
 
 // esito scelta livello
-alert('Livello difficoltà: ' + level + '\n' + numsLimit + ' tentativi disponibili');
-alert('Iniziamo');
+alert('Livello difficoltà: ' + level + '. \n' +'Iniziamo!');
 
 var bomb; // dichiarazione var "numero boba"
 var bombs = []; // dichiarazione array contenitore 16 numeri "bomba"
@@ -102,7 +101,7 @@ do {
   win = isEqual(usrNums, usrNmsCapacity);
   // perdiamo quando il numero utente è presente tra i numeri bomba
   loose = isDuplicate(usrNum, bombs);
-  // ciclo continua finchè non raggiungiamo capacità massima, o numero non corrisponde a una bomba
+  // ciclo continua finchè vittoria o perdita, non sono veri
 } while (!win && !loose);
 
 /* --- Con l'operatore OR non funziona, non capisco perchè:
