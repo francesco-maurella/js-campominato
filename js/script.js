@@ -4,25 +4,28 @@ function getRandomNum(max) {
   return getResult;
 }
 
-// funzione inserimento di numero, verificandone la validità
-function getUserNum() {
-  do {
-    var num = parseInt(prompt('Inserisci un numero'));
-    if (isNaN(num)) {
+// funzione inserimento di numero, verificandone la validità numerica
+function getNum() {
+    var choice = parseInt(prompt('Inserisci un numero'));
+    if (isNaN(choice)) {
       alert('Ammessi soltanto caratteri numerici');
-      }
+    } else {
+      return choice;
     }
-    while (isNaN(num));
-    return num;
 }
 
-// funzione verifica requisiti di inserimento
-function isValid(num, nums, max) {
-  if (num > max) {
-    alert('Il numero deve essere compreso tra 1 a ' + max);
-  } else if (nums.includes(num)) {
+// funzione verifica limite minimo e massimo di un numero
+function isExtra(num, max) {
+  if (num == 0 || num > max) {
+    alert('Il numero deve essere compreso tra 1 e ' + max);
+    return true;
+  }
+}
+
+// funzione verifica numero duplicato
+function isReply(num, nums) {
+  if (nums.includes(num)) {
     alert('Numero già inserito precedentemente!');
-  } else {
     return true;
   }
 }
@@ -32,7 +35,36 @@ function isEqual(nums, max) {
   return nums.length === max;
 }
 
-var numsLimit = 100; // var limite massimo del valore numerico
+// regole di gioco
+alert('CAMPO MINATO\nPer giocare imposta un livello di difficoltà');
+alert('Scrivi "1" per Facile.\nScrivi "2" per Medio.\nScrivi "3" per Difficile.');
+
+// ciclo DO WHILE per selezionare livello difficoltà
+do {
+  var level = getNum(); // scriviamo un numero valido
+  if (isExtra(level, 3)) {
+    level = false; // se maggiore di 3 il ciclo ripartirà
+  }
+} while (!level);
+
+var numsLimit; // dichiarazione var quantità numeri
+
+// la quantità di numeri "numsLimit" varierà in base al livello scelto
+switch (level) {
+  case 1:
+    numsLimit = 100;
+    break;
+  case 2:
+    numsLimit = 80;
+    break;
+  case 3:
+    numsLimit = 50;
+    break;
+}
+
+alert('Livello difficoltà selezionato: ' + level);
+alert('Iniziamo');
+
 var bombsNum = []; // dichiarazione array contenitore 16 numeri "bomba"
 var bombsQuantity = 16; // quantità dei numeri bomba
 
@@ -44,29 +76,36 @@ console.log(bombsNum);
 
 var usrNum; // dichiariamo var numero utente
 var usrNums = []; // dichiarazione array contenitore numeri utente
-var usrNmsCapacity = numsLimit - bombsQuantity; // quantità max contenitore numeri utente
+var usrNmsCapacity = numsLimit - bombsQuantity; // capacità array numeri utente
+var win; // dichiariamo var vittoria
+var loose; // dichiariamo var perdita
 
-// parte un ciclo DO WHILE
+// ciclo DO WHILE per iniziare inserimento numeri utente
 do {
-  // riempiamo la var numero utente, con una scelta
-  usrNum = getUserNum();
-  // verifichiamo requisiti descritti nella funzione
-  if (isValid(usrNum, usrNums, numsLimit)) {
-    usrNums.push(usrNum); // inseriamo la scelta nelL'apposito array
+  // scriviamo un numero valido
+  usrNum = getNum();
+  // verifichiamone i requisiti (se non è duplicato e se rientra nel quantity-range)
+  if (!isReply(usrNum, usrNums) && !isExtra(usrNum, numsLimit)) {
+    // inseriamo la scelta nelL'apposito array
+    usrNums.push(usrNum);
   }
-  // ciclo continua finchè la scelta è assente in "numeri bomba", o si raggiunge capacità max del contenitore usrNums
-} while (!bombsNum.includes(usrNum));
+  // vinciamo quando raggiungiamo capacità max del contenitore usrNums
+  win = isEqual(usrNums, usrNmsCapacity);
+  // perdiamo quando il numero utente è presente tra i numeri bomba
+  loose = bombsNum.includes(usrNum);
+  // ciclo continua finchè non è vera la "vittoria" o la "perdita"
+} while (!win && !loose);
 
-/* --- Così non funziona, non capisco perchè:
-while (!bombsNum.includes(usrNum) || !isEqual(usrNums, usrNmsCapacity));
+/* --- Con l'operatore OR non funziona, non capisco perchè:
+while (!win || !loose);
  --- */
 
 // esiti in base al risultato
-if (isEqual(usrNums, usrNmsCapacity)) { // in caso di vittoria
+if (win) { // in caso di vittoria
   alert('Complimenti, hai evitato tutti i numeri bomba!');
 } else { // in caso di sconfitta
   alert('Il numero ' + usrNum + ' è una bomba! Partita terminata.');
-  usrNums.length = usrNums.length - 1; // sottraiamo 1, alla quantità di numeri presenti nell'array userNums
+  usrNums.length = usrNums.length - 1; // - 1 per non contare il num. bomba
 }
 
 alert('Punteggio: ' + usrNums.length); // punteggio
